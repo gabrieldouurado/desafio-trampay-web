@@ -38,3 +38,15 @@ export async function resetPassword({ password, token }: ResetPassowordProps) {
 export async function createNewUser(data: CreateNewUserProps) {
   await api.post('/account/create-user', data)
 }
+
+export async function uploadAccountingEntries(file: any) {
+  await api.post(
+    '/entries/upload-csv',
+    {
+      file,
+    },
+    {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    },
+  )
+}
