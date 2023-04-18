@@ -43,6 +43,7 @@ export function ResetPassword() {
         password: newPassword,
         token: token as string,
       })
+      alert('Senha alterada com sucesso')
       reset()
     } catch (error: any) {
       alert(error.response.data.message)

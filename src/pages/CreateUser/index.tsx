@@ -5,6 +5,7 @@ import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { BasicButton } from '../../components/BasicButton'
 import { BasicFrom } from '../../components/BasicForm'
+import { createNewUser } from '../../helpers/apiHelpers'
 
 const newUserFormSchema = z.object({
   name: z.string().nonempty('name is required'),
@@ -21,14 +22,20 @@ export function CreateUser() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<NewUserFormInputs>({
     resolver: zodResolver(newUserFormSchema),
   })
 
-  function handleCreateNewUser(data: NewUserFormInputs) {
-    // TODO Implementar no backend a criação de usuário
-    console.log(data)
+  async function handleCreateNewUser(data: NewUserFormInputs) {
+    try {
+      await createNewUser(data)
+      alert('Conta criada com sucesso')
+      reset()
+    } catch (error: any) {
+      alert(error.response.data.message)
+    }
   }
 
   return (

@@ -15,6 +15,12 @@ interface ResetPassowordProps {
   token: string
 }
 
+interface CreateNewUserProps {
+  name: string
+  email: string
+  password: string
+}
+
 export async function authenticateUser(data: AuthenticateUserProps) {
   const authenticatedUser = await api.post('/account/authentication', data)
 
@@ -27,4 +33,8 @@ export async function sendResetPasswordMail(email: string) {
 
 export async function resetPassword({ password, token }: ResetPassowordProps) {
   await api.patch('/account/reset-password', { password, token })
+}
+
+export async function createNewUser(data: CreateNewUserProps) {
+  await api.post('/account/create-user', data)
 }
