@@ -6,6 +6,7 @@ import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { sendResetPasswordMail } from '../../helpers/apiHelpers'
 import { BasicFrom } from '../../components/BasicForm'
+import { useNavigate } from 'react-router-dom'
 
 const restoreFormSchema = z.object({
   email: z.string().nonempty('email is required'),
@@ -23,12 +24,15 @@ export function RestorePassword() {
     resolver: zodResolver(restoreFormSchema),
   })
 
+  const navigate = useNavigate()
+
   async function handleRestorePassword({ email }: RestoreFormInputs) {
     try {
       await sendResetPasswordMail(email)
       console.log('Email enviado com sucesso')
       alert('Email enviado com sucesso')
       reset()
+      navigate('/')
     } catch (error: any) {
       alert(error.response.data.message)
     }

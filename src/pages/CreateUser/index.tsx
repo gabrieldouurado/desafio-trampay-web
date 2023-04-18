@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { BasicButton } from '../../components/BasicButton'
 import { BasicFrom } from '../../components/BasicForm'
 import { createNewUser } from '../../helpers/apiHelpers'
+import { useNavigate } from 'react-router-dom'
 
 const newUserFormSchema = z.object({
   name: z.string().nonempty('name is required'),
@@ -28,11 +29,14 @@ export function CreateUser() {
     resolver: zodResolver(newUserFormSchema),
   })
 
+  const navigate = useNavigate()
+
   async function handleCreateNewUser(data: NewUserFormInputs) {
     try {
       await createNewUser(data)
       alert('Conta criada com sucesso')
       reset()
+      navigate('/')
     } catch (error: any) {
       alert(error.response.data.message)
     }

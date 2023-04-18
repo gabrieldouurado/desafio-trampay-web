@@ -4,7 +4,7 @@ import { ResetPasswordBox, ResetPasswordCotainer } from './styles'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { BasicFrom } from '../../components/BasicForm'
 import { resetPassword } from '../../helpers/apiHelpers'
 
@@ -32,6 +32,8 @@ export function ResetPassword() {
     resolver: zodResolver(resetPasswordFormSchema),
   })
 
+  const navigate = useNavigate()
+
   const { token } = useParams()
 
   const passwordDoesNotEqual =
@@ -45,6 +47,7 @@ export function ResetPassword() {
       })
       alert('Senha alterada com sucesso')
       reset()
+      navigate('/')
     } catch (error: any) {
       alert(error.response.data.message)
     }
